@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using FrontierDevelopments.General;
 using Harmony;
-using RimWorld;
 using Verse;
 
 namespace FrontierDevelopments.Shields.Harmony
@@ -11,7 +10,7 @@ namespace FrontierDevelopments.Shields.Harmony
     
     public class Harmony_Verb
     {
-        private static List<Type> uncheckedTypes = new List<Type>();
+        protected static List<Type> uncheckedTypes = new List<Type>();
 
         public static void BlacklistType(Type type)
         {

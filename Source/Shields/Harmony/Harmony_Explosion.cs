@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using FrontierDevelopments.General;
@@ -11,14 +10,14 @@ namespace FrontierDevelopments.Shields
 {
     public class Harmony_Explosion
     {
-        private static readonly List<string> BlockedDamageTypes = new List<string>();
+        protected static List<string> BlockedDamageTypes = new List<string>();
 
         public static void BlockType(string defName)
         {
             BlockedDamageTypes.Add(defName);
         }
         
-        private static bool ShouldBlock(Explosion explosion, IntVec3 position)
+        private static bool TryBlock(Explosion explosion, IntVec3 position)
         {
             if (explosion?.damType?.defName == null) return false;
             foreach (var type in BlockedDamageTypes)
@@ -87,7 +86,7 @@ namespace FrontierDevelopments.Shields
 
                             yield return new CodeInstruction(OpCodes.Ldarg_0) { labels = new List<Label>(new[] { shieldTestLabel })};
                             yield return new CodeInstruction(OpCodes.Ldarg_1);
-                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Harmony_Explosion), nameof(ShouldBlock)));
+                            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Harmony_Explosion), nameof(TryBlock)));
                             yield return new CodeInstruction(OpCodes.Brfalse, continueLabel);
                             yield return new CodeInstruction(OpCodes.Ret);
 
